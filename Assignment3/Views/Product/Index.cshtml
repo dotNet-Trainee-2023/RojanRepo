@@ -1,0 +1,94 @@
+﻿@model List<Product>
+<div class="card shadow border-0 mt-4">
+    <div class="card-header bg-secondary bg-gradient">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h2 class="text-white">Product List</h2>
+            </div>
+        </div>
+    </div>
+    <div class="card-body p-4">
+        <div class="row pb-3">
+            <div class="col-6">
+            </div>
+            <div class="col-6 text-end">
+                <a asp-controller="Product" asp-action="Create" class="btn btn-success">
+                    <i class="bi bi-plus-circle"></i>  Create New Product
+                </a>
+            </div>
+        </div>
+
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>
+                        Product Name
+                    </th>
+                    <th>
+                        Caregory
+                    </th>
+                    <th>
+                        Price
+                    </th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var obj in Model)
+                {
+                    <tr>
+                        <td>@obj.Name</td>
+                        <td>
+                            @obj.Category.Name
+                        </td>
+                        <td>
+                            @obj.Price
+                        </td>
+                        <td>
+                            <div class="w-75 btn-group" role="group">
+                                <a asp-controller="Product" asp-action="Edit" asp-route-id="@obj.Id" class="btn btn-primary mx-2">
+                                    <i class="bi bi-pencil-square"></i> Edit
+                                </a>
+                                <a  class="btn btn-danger mx-2 delete-item" data-item-id="@obj.Id">
+                                    <i class="bi bi-trash-fill"></i> Delete
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+      
+        $(".delete-item").click(function (e) {
+            e.preventDefault(); 
+
+            const itemId = $(this).data("item-id");
+            console.log(itemId);
+            $.ajax({
+                type: "DELETE",
+                url: `/Product/Delete/${itemId}`,
+               
+                success: function (response) {
+                    window.location.reload();
+                    console.log(url);
+                    console.log("Item deleted successfully");
+                    
+                },
+                error: function (error) {
+                    // Handle the error response if needed
+                    console.log("Failed to delete item");
+                    console.error("Failed to delete item", error);
+                }
+            });
+        });
+    });
+</script>
+
+
+                            
