@@ -1,6 +1,28 @@
-﻿@{
+﻿@model MVCApp.ViewModels.PrivayViewModel
+@{
     ViewData["Title"] = "Privacy Policy";
 }
 <h1>@ViewData["Title"]</h1>
 
 <p>Use this page to detail your site's privacy policy.</p>
+
+@ViewBag.Test
+
+<ul class="list-group">
+
+    @foreach (var role in Model.Roles)
+    {
+        <li class="list-group-item">
+            @role.Title
+            @if (role.Users != null && role.Users.Count() > 0)
+            {
+                <ul>
+                    @foreach (var user in role.Users)
+                    {
+                        <li>@user.Username - @user.Email</li>
+                    }
+                </ul>
+            }
+        </li>
+    }
+</ul>

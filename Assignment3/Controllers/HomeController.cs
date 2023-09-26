@@ -1,26 +1,37 @@
-﻿using Assignment3.Models;
+﻿using Assignment3Model.Models;
+using Assignment3Model.Models.ViewModel;
 using Microsoft.AspNetCore.Mvc;
+using Repositories.Contracts;
 using System.Diagnostics;
 
 namespace Assignment3.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        
+        private readonly IUnitOfWork _uow;
+        public HomeController(IUnitOfWork uow)
         {
-            _logger = logger;
+            _uow = uow;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var users = await _uow.Users.GetAllUsersWithRole();
+
+            return View(users);
         }
 
-        public IActionResult Privacy()
+        public async Task<IActionResult> Privacy()
         {
-            return View();
+            var roles = await _uow.Roles.GetRoleWithUsers();
+            var vm = new PrivacyViewModel()
+            {
+                Roles = roles
+            };
+
+            ViewBag.Test = TempData["Test"];
+            return View(vm);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

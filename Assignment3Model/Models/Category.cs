@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
 
-namespace Assignment3.Models
+namespace Assignment3Model.Models
 {
     public class Category
     {

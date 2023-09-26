@@ -1,18 +1,20 @@
-﻿using Assignment3.Data;
-using Assignment3.Models;
-using Assignment3.Models.ViewModel;
+﻿using Assignment3Data.Data;
+using Assignment3Model.Models;
+using Assignment3Model.Models.ViewModel;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Repositories.Contracts;
 
 namespace Assignment3.Services.ProductService
 {
     public class ProductService:IProductService
     {
         private readonly AppDbContext _context;
-
-        public ProductService(AppDbContext context)
+        private readonly IUnitOfWork _unitofwork;
+        public ProductService(AppDbContext context, IUnitOfWork unitOfWork)
         {
             _context = context;
+            _unitofwork = unitOfWork;
         }
 
         public Product GetProduct(int productId)

@@ -1,0 +1,41 @@
+﻿@model EmployeeCreateViewModel
+
+@{
+}
+
+<h1>Create Employee</h1>
+
+<form asp-action="Create" method="POST">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-group">
+        <label asp-for="Employee.Name" class="control-label"></label>
+        <input asp-for="Employee.Name" class="form-control" />
+        <span asp-validation-for="Employee.Name" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Employee.Department" class="control-label"></label>
+        <select class="form-select" asp-for="Employee.Department" asp-items="@Model.DropdownDepartments">
+            <option selected>-- Select --</option>
+        </select>
+        <span asp-validation-for="Employee.Department" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Employee.Position" class="control-label"></label>
+        <input asp-for="Employee.Position" class="form-control" />
+        <span asp-validation-for="Employee.Position" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Employee.Salary" class="control-label"></label>
+        <input asp-for="Employee.Salary" class="form-control" />
+        <span asp-validation-for="Employee.Salary" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Save" class="btn btn-primary" />
+    </div>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

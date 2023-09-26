@@ -1,4 +1,4 @@
-namespace Assignment3.Models
+namespace Assignment3Model.Models
 {
     public class ErrorViewModel
     {

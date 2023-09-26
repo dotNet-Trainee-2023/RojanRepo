@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
-namespace Assignment3.Models
+namespace Assignment3Model.Models
 {
     public class Product
     {

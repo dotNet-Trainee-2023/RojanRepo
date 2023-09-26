@@ -1,5 +1,5 @@
-﻿using Assignment3.Models;
-using Assignment3.Models.ViewModel;
+﻿using Assignment3Model.Models;
+using Assignment3Model.Models.ViewModel;
 
 namespace Assignment3.Services.ProductService
 {

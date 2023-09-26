@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace Assignment3.Models.ViewModel
+namespace Assignment3Model.Models.ViewModel
 {
     public class ProductVM
     {

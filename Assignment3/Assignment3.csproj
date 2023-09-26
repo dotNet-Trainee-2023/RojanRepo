@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Data\Migrations\" />
+    <ProjectReference Include="..\Assignment3Data\Assignment3Data.csproj" />
   </ItemGroup>
 
 </Project>

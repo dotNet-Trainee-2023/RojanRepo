@@ -1,5 +1,5 @@
-﻿using Assignment3.Models;
-using Assignment3.Models.ViewModel;
+﻿using Assignment3Model.Models;
+using Assignment3Model.Models.ViewModel;
 using Assignment3.Services.ProductService;
 using Microsoft.AspNetCore.Mvc;
 

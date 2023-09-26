@@ -1,0 +1,44 @@
+﻿@model EmployeeIndexViewModel
+
+@{
+}
+
+<h1>Employees List</h1>
+<a asp-action="Create" class="btn btn-primary">Create</a>
+<ul class="list-group" type="1">
+    @foreach (Employee employee in Model.Employees)
+    {
+        <li class="list-group-item">
+            @employee.Name - @employee.Department
+            <a class="btn btn-success" asp-action="Edit" asp-route-index="@employee.Id">Edit</a>
+            <a class="btn btn-danger deleteBtn" data-id="@employee.Id" asp-action="Delete" asp-route-id="@employee.Id">Delete</a>
+        </li>
+    }
+</ul>
+<h6>Total Salary: @Model.TotalSalary</h6>
+<h6>Total Employees: @ViewBag.TotalEmployees</h6>
+
+<ul class="list-group" type="1">
+    @foreach (string position in ViewBag.Positions)
+    {
+        <li class="list-group-item">
+            @position
+        </li>
+    }
+</ul>
+@ViewBag.Employee
+@section Scripts {
+    <script>
+        $(".deleteBtn").on("click", function (e) {
+            e.preventDefault();
+            const id = $(this).attr("data-id");
+            $.ajax({
+                url: "/Employee/Delete/" + id,
+                method: "POST",
+                success: function() {
+                    location.href = '/Employee'
+                }
+            });
+        })
+    </script>
+}
