@@ -1,4 +1,5 @@
 using ApiTraining.Data;
+using ApiTraining.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,7 +15,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddDbContext<ApiDbContext>(options =>
                options.UseSqlite(builder.Configuration.GetConnectionString("ApiSqliteConnection")));
 builder.Services.AddControllers();
-
+builder.Services.AddScoped<IPlaceServices, PlaceServices>();
 
 builder.Services.AddSwaggerGen();
 

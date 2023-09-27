@@ -1,7 +1,11 @@
-﻿using ApiTraining.Models;
+﻿using ApiTraining.Data;
+using ApiTraining.Models;
+using ApiTraining.Models.Dto;
+using ApiTraining.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+using System.Numerics;
 
 namespace ApiTraining.Controllers
 {
@@ -9,95 +13,143 @@ namespace ApiTraining.Controllers
     [ApiController]
     public class PlacesController : ControllerBase
     {
-        public static List<Place> Places = new List<Place>
-            {
-                new Place{
-                Id = Guid.NewGuid(), // 6B29FC40-CA47-1067-B31D-00DD010662DA
-                Name = "Bishnudwar",
-                Location = "Shivapuri"
-                },
-            };
+        private readonly ApiDbContext _dbcontext;
+        /*       public static List<Place> Places = new List<Place>
+                   {
+                       new Place{
+                       Id = Guid.NewGuid(), // 6B29FC40-CA47-1067-B31D-00DD010662DA
+                       Name = "Bishnudwar",
+                       Location = "Shivapuri"
+                       },
+                   };
+       */
+        private readonly IPlaceServices _placeServices;
+        public PlacesController(ApiDbContext dbcontext, IPlaceServices placeServices)
+        {
+            _dbcontext = dbcontext;
+            _placeServices = placeServices;
+        }
 
         [HttpGet]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            return Ok(Places);
+            //Get from database
+            var places = await _placeServices.GetAllAsync();
+
+            //fetch from domain model and map to DTO.
+            var placeDto = new List<PlaceDto>();
+            foreach (var place in places)
+            {
+                placeDto.Add(new PlaceDto
+                {
+                    Id = place.Id,
+                    Name = place.Name,
+                    Location = place.Location,
+                }
+                );
+            }
+
+            //Return DTO
+            return Ok(placeDto);
         }
 
 
         [HttpGet("{id}")]
         //[Route]
-        public IActionResult GetById([FromRoute] Guid id)
+        public async Task<IActionResult> GetById([FromRoute] Guid id)
         {
-            var place = Places.FirstOrDefault(x => x.Id == id);
+         
+            //fetch from db
+            var place = await _placeServices.GetbyIdAsync(id);
 
-            if (place == null)
-                return NotFound();
+          
+                if (place == null)
+                    return NotFound();
 
-            return Ok(place);
+            //Map to DTO
+            var placeDto = new List<PlaceDto>
+            {
+                new PlaceDto()
+                {
+                    Id= place.Id,
+                    Name = place.Name,
+                    Location = place.Location,
+
+                }
+            };
+
+            //Return DTO
+            return Ok(placeDto);
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody] Place place)
+        public async Task<IActionResult> Create([FromBody] PlaceCreateDto placeCreateDto)
         {
-            if (place == null)
-                return BadRequest();
+          
+                if (placeCreateDto == null)
+                    return BadRequest();
 
             Place place2 = new Place
             {
                 Id = Guid.NewGuid(),
-                Name = place.Name,
-                Location = place.Location,
+                Name = placeCreateDto.Name,
+                Location = placeCreateDto.Location,
             };
 
-            Places.Add(place2);
+            var returnVal = await _placeServices.CreateAsync(place2);
 
-            return Ok(place2);
+            return Ok(returnVal);
         }
 
         [HttpPatch("{id:Guid}")]
         public IActionResult Patch([FromRoute] Guid id, [FromBody] JsonPatchDocument<Place> patchValue)
         {
-            var place = Places.FirstOrDefault(x => x.Id == id);
+            var place = _dbcontext.Places.FirstOrDefault(x => x.Id == id);
 
-            if (place == null)
-                return BadRequest();
+                if (place == null)
+                    return BadRequest();
 
             patchValue.ApplyTo(place, ModelState);
+            _dbcontext.SaveChanges();
 
 
             return Ok(place);
         }
 
         [HttpPut("{id}")]
-        public IActionResult Update([FromRoute] Guid id, [FromBody] Place places)
+        public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] PlaceCreateDto placeCreateDto)
         {
-            if (places == null)
-                return BadRequest();
+           
+                if (placeCreateDto == null)
+                    return BadRequest();
 
-            var place = Places.FirstOrDefault(x => x.Id == id);
+    
+            var place = await _placeServices.GetbyIdAsync(id);
 
-            if (place == null)
-                return NotFound();
+                if (place == null)
+                    return NotFound();
 
-            place.Location = places.Location;
-            place.Name = places.Name;
 
-            return Ok(place);
+            var retVal = await _placeServices.UpdateAsync(place, placeCreateDto);
+
+            return Ok(retVal);
         }
 
         [HttpDelete]
         [Route("{id:Guid}")]
-        public IActionResult Delete([FromRoute] Guid id)
+        public async Task<IActionResult> Delete([FromRoute] Guid id)
         {
-            var place = Places.FirstOrDefault(x => x.Id == id);
+  
+            var place = await _placeServices.GetbyIdAsync(id);
 
-            if (place == null)
-                return NotFound();
+          
+                if (place == null)
+                    return NotFound();
 
-            Places.Remove(place);
+            var retVal = await _placeServices.DeleteAsync(place);
 
-            return Ok(place);
+      
+            return Ok(retVal);
         }
     }
 }
