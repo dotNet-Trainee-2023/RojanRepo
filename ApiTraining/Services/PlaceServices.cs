@@ -1,5 +1,7 @@
 ﻿using ApiTraining.Data;
 using ApiTraining.Models;
+using ApiTraining.Models.Dto;
+using Microsoft.EntityFrameworkCore;
 
 namespace ApiTraining.Services
 {

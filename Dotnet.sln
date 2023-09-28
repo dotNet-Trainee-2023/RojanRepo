@@ -17,9 +17,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Assignment3Model", "Assignm
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Assignment4Test", "Assignment4Test\Assignment4Test.csproj", "{5ABA8F2C-41B7-422E-956E-FFE3C932579D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVCApp.UnitTests", "MVCApp.UnitTests\MVCApp.UnitTests.csproj", "{692378A8-4256-44EE-BA41-13FA74B78B9B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MVCApp.UnitTests", "MVCApp.UnitTests\MVCApp.UnitTests.csproj", "{692378A8-4256-44EE-BA41-13FA74B78B9B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiTraining", "ApiTraining\ApiTraining.csproj", "{F26D00FF-B5AA-441A-A24F-8C8AC680417F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApiTraining", "ApiTraining\ApiTraining.csproj", "{F26D00FF-B5AA-441A-A24F-8C8AC680417F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JwtDemo", "JwtDemo\JwtDemo.csproj", "{B417EDFA-5F3F-4867-B1B4-6D34D63C4FDB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -63,6 +65,10 @@ Global
 		{F26D00FF-B5AA-441A-A24F-8C8AC680417F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F26D00FF-B5AA-441A-A24F-8C8AC680417F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F26D00FF-B5AA-441A-A24F-8C8AC680417F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B417EDFA-5F3F-4867-B1B4-6D34D63C4FDB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B417EDFA-5F3F-4867-B1B4-6D34D63C4FDB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B417EDFA-5F3F-4867-B1B4-6D34D63C4FDB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B417EDFA-5F3F-4867-B1B4-6D34D63C4FDB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
