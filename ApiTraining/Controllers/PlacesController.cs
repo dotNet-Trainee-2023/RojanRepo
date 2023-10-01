@@ -2,6 +2,7 @@
 using ApiTraining.Models;
 using ApiTraining.Models.Dto;
 using ApiTraining.Services;
+using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
@@ -23,9 +24,12 @@ namespace ApiTraining.Controllers
                        },
                    };
        */
+    
         private readonly IPlaceServices _placeServices;
-        public PlacesController(ApiDbContext dbcontext, IPlaceServices placeServices)
+        private readonly IMapper _mapper;
+        public PlacesController(ApiDbContext dbcontext, IPlaceServices placeServices, IMapper mapper)
         {
+            _mapper = mapper;
             _dbcontext = dbcontext;
             _placeServices = placeServices;
         }
@@ -37,18 +41,19 @@ namespace ApiTraining.Controllers
             var places = await _placeServices.GetAllAsync();
 
             //fetch from domain model and map to DTO.
-            var placeDto = new List<PlaceDto>();
-            foreach (var place in places)
-            {
-                placeDto.Add(new PlaceDto
-                {
-                    Id = place.Id,
-                    Name = place.Name,
-                    Location = place.Location,
-                }
-                );
-            }
-
+            //var placeDto = new List<PlaceDto>();
+            //foreach (var place in places)
+            //{
+            //    placeDto.Add(new PlaceDto
+            //    {
+            //        Id = place.Id,
+            //        Name = place.Name,
+            //        Location = place.Location,
+            //    }
+            //    );
+            //}
+            //automapper mapping to dto
+            var placeDto = _mapper.Map<List<PlaceDto>>(places);
             //Return DTO
             return Ok(placeDto);
         }
@@ -67,17 +72,17 @@ namespace ApiTraining.Controllers
                     return NotFound();
 
             //Map to DTO
-            var placeDto = new List<PlaceDto>
-            {
-                new PlaceDto()
-                {
-                    Id= place.Id,
-                    Name = place.Name,
-                    Location = place.Location,
+            //var placeDto = new List<PlaceDto>
+            //{
+            //    new PlaceDto()
+            //    {
+            //        Id= place.Id,
+            //        Name = place.Name,
+            //        Location = place.Location,
 
-                }
-            };
-
+            //    }
+            //};
+            var placeDto = _mapper.Map<PlaceDto>(place);
             //Return DTO
             return Ok(placeDto);
         }
@@ -98,7 +103,9 @@ namespace ApiTraining.Controllers
 
             var returnVal = await _placeServices.CreateAsync(place2);
 
-            return Ok(returnVal);
+            var placeNewDto = _mapper.Map<PlaceCreateDto>(returnVal);
+
+            return Ok(placeNewDto);
         }
 
         [HttpPatch("{id:Guid}")]
@@ -132,7 +139,9 @@ namespace ApiTraining.Controllers
 
             var retVal = await _placeServices.UpdateAsync(place, placeCreateDto);
 
-            return Ok(retVal);
+            var placeNewDto = _mapper.Map<PlaceDto>(retVal);
+
+            return Ok(placeNewDto);
         }
 
         [HttpDelete]
@@ -148,8 +157,10 @@ namespace ApiTraining.Controllers
 
             var retVal = await _placeServices.DeleteAsync(place);
 
-      
-            return Ok(retVal);
+
+            var placeDto = _mapper.Map<PlaceDto>(retVal);
+
+            return Ok(placeDto);
         }
     }
 }

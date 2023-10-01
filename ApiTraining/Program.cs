@@ -1,4 +1,5 @@
 using ApiTraining.Data;
+using ApiTraining.Mapper;
 using ApiTraining.Services;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,7 +11,7 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 /*builder.Services.AddDbContext<ApiDBContext>(options => options.UseSqlServer(conxString));*/
-
+builder.Services.AddAutoMapper(typeof(AutoMapperProfiles));
 
 builder.Services.AddDbContext<ApiDbContext>(options =>
                options.UseSqlite(builder.Configuration.GetConnectionString("ApiSqliteConnection")));
