@@ -35,10 +35,10 @@ namespace ApiTraining.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll(int pageNumber = 1, int pageSize = 10)
         {
             //Get from database
-            var places = await _placeServices.GetAllAsync();
+            var places = await _placeServices.GetAllAsync(pageSize, pageNumber);
 
             //fetch from domain model and map to DTO.
             //var placeDto = new List<PlaceDto>();
